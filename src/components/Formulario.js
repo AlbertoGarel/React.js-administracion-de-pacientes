@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const Formulario = () => {
+const Formulario = ({ crearCita }) => {
   //create state
   const [cita, actualizarCita] = useState({
-    mascota: "",
-    propietario: "",
+    nombre: "",
+    apellidos: "",
     fecha: "",
     hora: "",
     sintomas: ""
@@ -21,7 +21,7 @@ const Formulario = () => {
   };
 
   //Extraer valores
-  const { mascota, propietario, fecha, hora, sintomas } = cita;
+  const { nombre, apellidos, fecha, hora, sintomas } = cita;
 
   //Cuando el usuario presiona agregar cita
   const submitCita = ev => {
@@ -29,8 +29,8 @@ const Formulario = () => {
 
     //validar
     if (
-      mascota.trim() === "" ||
-      propietario.trim() === "" ||
+      nombre.trim() === "" ||
+      apellidos.trim() === "" ||
       fecha.trim() === "" ||
       hora.trim() === "" ||
       sintomas.trim() === ""
@@ -41,10 +41,18 @@ const Formulario = () => {
 
     //asignar id
     cita.id = uuidv4();
-    console.log(cita);
+
     //crear cita
+    crearCita(cita);
 
     //reiniciar form
+    actualizarCita({
+      nombre: "",
+      apellidos: "",
+      fecha: "",
+      hora: "",
+      sintomas: ""
+    });
   };
 
   //mensaje TimeOut
@@ -60,23 +68,23 @@ const Formulario = () => {
       <h2>Crear Cita</h2>
       {error ? mensajeError() : null}
       <form onSubmit={submitCita}>
-        <label>Nombre Mascota</label>
+        <label>Nombre</label>
         <input
           type="text"
-          name="mascota"
+          name="nombre"
           className="u-full-width"
           placeholder="Nombre Mascota"
           onChange={actualizarState}
-          value={mascota}
+          value={nombre}
         />
-        <label>Nombre Dueño</label>
+        <label>Apellido</label>
         <input
           type="text"
-          name="propietario"
+          name="apellidos"
           className="u-full-width"
           placeholder="Nombre Dueño Mascota"
           onChange={actualizarState}
-          value={propietario}
+          value={apellidos}
         />
         <label>Fecha</label>
         <input
